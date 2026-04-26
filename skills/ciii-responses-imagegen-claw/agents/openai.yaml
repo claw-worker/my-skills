@@ -1,0 +1,4 @@
+interface:
+  display_name: "CIII Responses ImageGen"
+  short_description: "Generate images through the custom Responses API"
+  default_prompt: "Use $ciii-responses-imagegen to generate an image via the custom Responses endpoint."
