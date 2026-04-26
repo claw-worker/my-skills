@@ -1,9 +1,9 @@
 ---
-name: ciii-responses-imagegen
+name: ciii-responses-imagegen-claw
 description: Generate images through the custom OpenAI-compatible Responses endpoint at https://codex.ciii.club/v1/responses using top-level model gpt-5.4 and the image_generation tool with gpt-image-2. Use when Codex needs a deterministic Python CLI workflow, explicit request and response JSON artifacts, or the user explicitly asks to use this endpoint/API path instead of the built-in image tool.
 ---
 
-# CIII Responses ImageGen
+# CIII Responses ImageGen Claw
 
 ## Overview
 
