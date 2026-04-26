@@ -1,31 +1,156 @@
 ---
 name: xiaoshen-transactions-analysis
-description: This SKILL is used to analyze and summarize XiaoShen(小申) consumption habits and spending tendencies based on transaction records.
+description: 分析和总结小申的消费习惯和消费倾向，基于交易记录数据生成分类统计和占比分析。
+tags: [finance, analysis, transactions, consumption]
+version: 1.0.0
+author: CodeBuddy
+allowed-tools: 
+disable: false
 ---
 
-# xiaoshen-transactions-analysis
+# Skill: 小申消费记录分析
 
-## Overview
-This SKILL is used to analyze and summarize XiaoShen(小申) consumption habits
-and spending tendencies based on transaction records.
+## 概述
+此SKILL用于分析和总结小申的消费习惯和消费倾向，基于交易记录数据生成分类统计和占比分析。
 
-The SKILL fetches consumption data for a given year or month,
-categorizes spending, and outputs percentage-based summaries
-that can be rendered as tables.
+该SKILL通过调用MCP服务获取指定周期内的消费数据，对消费进行分类统计，并输出基于百分比的汇总结果，可渲染为表格形式。
 
-## Capabilities
-- Fetch transaction records via HTTP GET request
-- Supports yearly (`yyyy`) and monthly (`yyyy-mm`) queries
-- API response details can refer to [api.md](./references/api.md)
-- Analyze spending by category
-- Output percentage distribution data
+## 核心能力
 
-## Input
-- `period`:  
-  - `yyyy` (e.g. `2025`)  
-  - `yyyy-mm` (e.g. `2025-12`)
+### 数据获取
+- 通过调用 `get_transactions_by_user` MCP服务获取消费记录
+- 支持按年（`yyyy`）或按月（`yyyy-mm`）查询
+- 处理并解析MCP服务返回的JSON格式交易数据
 
-## Output
-- Spending summary by category
-- Percentage distribution per category
-- Visualization data for table formats
+### 数据分析
+- 按消费项目（item）进行分类统计
+- 计算各消费类别的金额占比
+- 生成结构化的汇总报告
+
+### 输出格式
+- 分类消费汇总表格
+- 各类别消费金额及百分比分布
+- 适合可视化的数据格式
+
+## MCP服务集成
+
+### 服务名称
+`get_transactions_by_user`
+
+### 服务描述
+获取指定用户的消费记录数据
+
+### 必要参数
+
+| 参数名 | 类型 | 说明 | 示例值 |
+|--------|------|------|--------|
+| `user_id` | string | 用户ID | `"user123"` |
+| `period` | string | 查询周期，支持年或年月格式 | `"2025"` 或 `"2025-01"` |
+
+### 返回数据格式
+MCP服务返回交易记录数组，每条记录包含以下字段：
+
+```json
+[
+  {
+    "account_id": 2,
+    "amount": "14.00",
+    "date": "2025-12-31",
+    "desc": "专二",
+    "from_account_id": null,
+    "id": 11203,
+    "item": "咖啡",
+    "opposite_trans_id": null,
+    "to_account_id": null,
+    "type": -1
+  },
+  {
+    "account_id": 1,
+    "amount": "34.93",
+    "date": "2025-12-31",
+    "desc": "都城",
+    "from_account_id": null,
+    "id": 11204,
+    "item": "餐饮",
+    "opposite_trans_id": null,
+    "to_account_id": null,
+    "type": -1
+  }
+]
+```
+
+### 字段说明
+- `item`: 消费项目类别，用于分类统计
+- `amount`: 交易金额（字符串格式）
+- `date`: 交易日期
+- `desc`: 交易描述
+- `type`: 交易类型（负数表示支出）
+- `account_id`: 账户ID
+
+## 使用流程
+
+### 1. 调用前准备
+检查是否已获取必要的MCP参数：
+- `user_id`: 用户标识
+- `period`: 查询周期
+
+### 2. 参数收集
+当用户未提供足够的MCP参数时，按以下优先级询问：
+
+```
+优先级1: user_id
+优先级2: period
+```
+
+询问示例：
+- "请提供您的用户ID"
+- "请输入要查询的周期（如 2025 或 2025-01）"
+
+### 3. 数据处理
+
+- 过滤支出记录（type < 0）
+- 按 `item` 字段分组
+- 汇总各类别消费金额
+- 计算百分比分布
+
+### 4. 生成报告
+输出包含以下内容的汇总报告：
+- 各消费类别的总金额
+- 各类别占总消费的百分比
+- 排序后的消费类别列表（按金额降序）
+
+## 输出示例
+
+```
+=== 消费汇总分析（2025-01）===
+
+消费类别        | 金额（元） | 占比
+--------------|----------|--------
+餐饮          | 34.93    | 71.4%
+咖啡          | 14.00    | 28.6%
+
+总支出: 48.93 元
+记录数: 2 条
+```
+
+## 注意事项
+
+1. **参数验证**: 调用MCP服务前必须确保所有必要参数已提供
+2. **错误处理**: 如MCP服务调用失败，应告知用户原因并提示重新提供参数
+3. **金额处理**: `amount` 字段为字符串格式，需转换为数值进行计算
+4. **日期格式**: 支持 `yyyy` 和 `yyyy-mm` 两种周期格式
+5. **数据准确性**: 只统计支出记录（type = -1），忽略收入和转账记录
+
+## 扩展说明
+
+### 可选功能
+- 按日期趋势分析
+- 消费描述关键词提取
+- 异常消费检测
+- 月度/年度对比分析
+
+### 自定义配置
+可在实现中添加：
+- 消费类别映射规则
+- 金额阈值过滤
+- 自定义分类规则
