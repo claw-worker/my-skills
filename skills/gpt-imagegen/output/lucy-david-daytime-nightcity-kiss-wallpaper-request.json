@@ -1,0 +1,24 @@
+{
+  "endpoint": "https://ai.input.im/v1/images/edits",
+  "method": "POST",
+  "mode": "edit",
+  "content_type": "multipart/form-data; boundary=----codex-imagegen-4e3528491a1547deb8000cb736e693e8",
+  "fields": {
+    "model": "gpt-image-2",
+    "prompt": "Keep Lucy and David as the main subjects, still kissing lovingly in the same romantic anime composition. Preserve their Cyberpunk: Edgerunners original-style appearance and clothing. Replace only the background and environment: change the moon surface and space backdrop into a bright daytime view of Night City from Cyberpunk, with futuristic skyscrapers, elevated rails, and a clearly visible Night City train moving along the rail in the background. The city should feel sunny daylight, clean blue sky with light haze, vibrant sci-fi metropolis, cinematic anime illustration. No space, no Earth, no moon, no astronaut elements, no helmets. Maintain emotional focus on the couple in the foreground.",
+    "size": "2048x1152",
+    "quality": "high",
+    "output_format": "png",
+    "n": 1,
+    "background": "opaque"
+  },
+  "files": [
+    {
+      "field_name": "image[]",
+      "path": "d:\\Ethan\\workspace\\my-skills\\skills\\gpt-imagegen\\output\\lucy-david-moon-kiss-wallpaper.png",
+      "filename": "lucy-david-moon-kiss-wallpaper.png",
+      "mime_type": "image/png",
+      "size_bytes": 3749217
+    }
+  ]
+}
