@@ -1,0 +1,15 @@
+{
+  "endpoint": "https://ai.input.im/v1/images/generations",
+  "method": "POST",
+  "mode": "generate",
+  "content_type": "application/json",
+  "payload": {
+    "model": "gpt-image-2",
+    "prompt": "Anime key visual wallpaper of Lucy and David from Cyberpunk: Edgerunners kissing lovingly on the moon, romantic embrace, full original character styling and recognizable outfit design faithful to the anime, Lucy with pale skin, long white hair with pastel color accents, futuristic cropped jacket and bodysuit in Edgerunners style, David with short dark hair, athletic build, yellow Edgerunners-style jacket and fitted pants, both without any space helmets, no helmets, no astronaut suits, breathing naturally in a stylized sci-fi anime scene, Earth large and luminous in the black sky behind them, moon dust under their feet, subtle low-gravity feeling, cinematic composition, emotional, beautiful, highly detailed anime illustration, clean faces, no text, wallpaper, 16:9",
+    "size": "2048x1152",
+    "quality": "high",
+    "n": 1,
+    "background": "opaque",
+    "response_format": "b64_json"
+  }
+}
